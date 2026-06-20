@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Will You Go On A Date With Me? ❤️</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg,#ffd6e7,#ffb6c1);
+    height:100vh;
+    overflow:hidden;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+}
+
+.container{
+    padding:20px;
+}
+
+h1{
+    color:#d63384;
+    font-size:3rem;
+    margin-bottom:30px;
+}
+
+button{
+    border:none;
+    cursor:pointer;
+    padding:15px 35px;
+    border-radius:50px;
+    font-size:1.2rem;
+    transition:0.3s;
+}
+
+#yesBtn{
+    background:#ff4d6d;
+    color:white;
+}
+
+#yesBtn:hover{
+    transform:scale(1.1);
+}
+
+#noBtn{
+    position:absolute;
+    background:#6c757d;
+    color:white;
+}
+
+#datePage{
+    display:none;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    width:100%;
+}
+
+.message{
+    color:#d63384;
+    font-size:2.2rem;
+    max-width:800px;
+    line-height:1.5;
+    z-index:2;
+}
+
+.emoji{
+    font-size:4rem;
+    margin:15px;
+    animation:bounce 1s infinite alternate;
+}
+
+@keyframes bounce{
+    from{transform:translateY(0);}
+    to{transform:translateY(-15px);}
+}
+
+.heart{
+    position:absolute;
+    bottom:-50px;
+    font-size:30px;
+    animation:floatUp linear forwards;
+}
+
+@keyframes floatUp{
+    from{
+        transform:translateY(0);
+        opacity:1;
+    }
+    to{
+        transform:translateY(-120vh);
+        opacity:0;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="container" id="questionPage">
+    <h1>Will you go on a date with me? ❤️</h1>
+
+    <button id="yesBtn">Yes ❤️</button>
+    <button id="noBtn">No 😢</button>
+</div>
+
+<div id="datePage">
+    <div class="emoji">🌹❤️🌹</div>
+
+    <div class="message">
+        I'm so excited for our next date! ❤️<br><br>
+        I can't wait to spend time with you, bubs. 🥰<br><br>
+        You're the best! 🌹❤️
+    </div>
+
+    <div class="emoji">❤️🌹❤️</div>
+</div>
+
+<script>
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+
+let noCount = 0;
+
+const sadTexts = [
+    "No 😢",
+    "Are you sure? 🥺",
+    "Really sure? 💔",
+    "Don't break my heart 😭",
+    "Please? 🥹",
+    "I'll bring snacks 🍫",
+    "Pretty please? 🌹",
+    "You're making me sad 😔",
+    "Last chance 😭",
+    "Okay... 💔"
+];
+
+function moveButton(){
+    const maxX = window.innerWidth - noBtn.offsetWidth;
+    const maxY = window.innerHeight - noBtn.offsetHeight;
+
+    noBtn.style.left = Math.random() * maxX + "px";
+    noBtn.style.top = Math.random() * maxY + "px";
+}
+
+moveButton();
+
+noBtn.addEventListener("mouseover", moveButton);
+
+noBtn.addEventListener("click", () => {
+    noCount++;
+
+    moveButton();
+
+    if(noCount < sadTexts.length){
+        noBtn.innerHTML = sadTexts[noCount];
+    }
+
+    const newSize = Math.max(0.05, 1 - (noCount * 0.12));
+    noBtn.style.transform = `scale(${newSize})`;
+
+    yesBtn.style.transform = `scale(${1 + (noCount * 0.15)})`;
+
+    if(noCount >= 8){
+        noBtn.style.display = "none";
+    }
+});
+
+yesBtn.addEventListener("click", () => {
+    document.getElementById("questionPage").style.display = "none";
+    document.getElementById("datePage").style.display = "flex";
+
+    setInterval(() => {
+        const item = document.createElement("div");
+        item.classList.add("heart");
+
+        item.innerHTML = Math.random() > 0.5 ? "❤️" : "🌹";
+
+        item.style.left = Math.random() * 100 + "vw";
+        item.style.animationDuration = (Math.random()*3 + 3) + "s";
+
+        document.body.appendChild(item);
+
+        setTimeout(() => {
+            item.remove();
+        },6000);
+
+    },250);
+});
+</script>
+
+</body>
+</html>
